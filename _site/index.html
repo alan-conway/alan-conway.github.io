@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+
+  <title>alan-conway.github.io</title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://alan-conway.github.io/">
+  <link rel="alternate" type="application/atom+xml" title="alan-conway.github.io" href="http://alan-conway.github.io/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">alan-conway.github.io</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <article class="post-content">
+    <h2 id="reversihttpsgithubcomalan-conwayreversi"><a href="https://github.com/alan-conway/Reversi">Reversi</a></h2>
+<p>Building reversi with TDD  <br />
+<code>#TDD #xUnit #Moq #WPF #MVVM #Prism #Unity #TPL #async</code></p>
+
+<p><a href="https://ci.appveyor.com/project/alan-conway/reversi/branch/master"><img src="https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true" alt="Build status" /></a>      <a href="https://github.com/alan-conway/Reversi">Source Code</a></p>
+
+<p>The plan for this project is to explore building some AI logic to win games without any human input.  <br />
+Before I get to that, I will first build a game engine and a GUI that will allow a human to play against the computer without building much smarts into it.  <br />
+The first iteration is to create a game engine that a user can play against, even if the engine isn’t unbeatable quite yet. This is now done and if you’d like to play the game, you can do so by fetching the latest build from <a href="https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&amp;job=Configuration%3A+Release">here</a> and running <code>Reversi.exe</code> from any machine with an up-to-date .net runtime on it.</p>
+
+<p>There are 3 main parts to this solution at the moment:  <br />
+1. The tests  <br />
+2. The reversi game engine  <br />
+3. The GUI</p>
+
+<p>It’s unusual to list the tests first but it feels appropriate here because this project is following TDD, so a quick look there before the other components of the project…</p>
+
+<h3 id="tests"><em>Tests:</em></h3>
+<p><code>#TDD #xUnit #Moq #TPL #async #ExtensionMethods</code></p>
+
+<p>The tests in this project are written using xUnit and Moq, both of which I recommend.  <br />
+I’ve made frequent use of xUnit’s support of <em>parameterised</em> tests through its <code>[Theory] [InlineData(..)]</code> attributes.  <br />
+For the <code>GameEngine</code>, there were times when I wanted to pass various different types of mocked objects into its constructor, and to avoid repeating myself too much throughout the tests, I opted to use a <em>fluent builder</em>.  <br />
+By ‘builder’, I am referring to the classical <a href="https://en.wikipedia.org/wiki/Builder_pattern">Builder</a> design pattern from <a href="https://www.amazon.co.uk/dp/0201633612">GoF</a>. And by ‘fluent’, I am referring to a <a href="https://en.wikipedia.org/wiki/Fluent_interface">fluent syntax</a>.  <br />
+An example of the builder and the syntax are as follows:</p>
+
+<pre><code>private IFoo _foo;
+private IBar _bar;
+
+public MyObjBuilder()
+{
+	_foo = new Mock&lt;IFoo&gt;().Object;
+	_bar = new Mock&lt;IBar&gt;().Object;
+}
+
+public MyObjBuilder SetFoo(IFoo foo)
+{
+	_foo = foo;
+	return this;
+}
+
+public MyObjBuilder SetBar(IBar bar)
+{
+	_bar = bar;
+	return this;
+}
+
+public Obj Build()
+{
+	return new Obj(_foo, _bar);
+}
+</code></pre>
+
+<p>The <em>fluency</em> comes from the fact that the SetFoo and SetBar methods return <code>this</code> which allows for the following (fluent-style) syntax when they are being called:</p>
+
+<pre><code>Obj obj = myObjBuilder
+			.SetFoo(customFoo)
+			.SetBar(customBar)
+			.Build();
+</code></pre>
+
+<p>xUnit also allows us to use the <code>async</code> keyword in test method signatures, which is great when we need to <code>await</code> the result of a <code>Task</code>. Here is an example of such a test to demonstrate:</p>
+
+<pre><code>[Fact]
+public async void ShouldUpdateMoveNumber()
+{
+	//Arrange: Create a new game and define the location of the first move
+	_engine.CreateNewGame();
+	Move move = new Move(34);
+
+	//Act: Process move and increment the move number
+	var response = await _engine.UpdateBoardAsync(move);
+
+	//Assert: Engine should have updated MoveNumber to 2 after processing the move
+	Assert.Equal(2, _engine.MoveNumber);
+}
+</code></pre>
+
+<p>I also wrote an extension method for implementors of INotifyPropertyChanged</p>
+
+<h3 id="engine"><em>Engine:</em></h3>
+<p><code>#TDD #TPL #async #DependencyInjection</code></p>
+
+<p>The engine is where most of the logic is found. The GUI is there to convey the user’s move to the engine and display the results, but it’s the engine which processes all the information.  <br />
+The engine only has a few basic tasks:  <br />
+* Create a new game  <br />
+* Process the opponent’s move  <br />
+* Choose and play its own move in response</p>
+
+<p>There are a few minor complications which mean that it’s slightly less linear than it sounds. (eg when a player has no valid moves and must <em>pass</em> their turn.) But on the whole it is as straightforward as that.  <br />
+Of course the interesting piece will be in having the engine choose the best move but I will come to that another day.  <br />
+Creating a new game is a simple matter. I chose to keep the state of the game board within an object called <code>IGameContext</code>, which can be passed around to those that need it. The squares on the board are kept as a simple array, which is as neat and convenient a representation as any. A <code>Square</code> maintains the colour of the piece that it contains (if any) and a couple of other flags, such as whether it is valid for the opponent to play in that square next time around. Creating a new game is a matter of resetting the state of the game context.  <br />
+Processing the opponents move requires us to examine the squares that can be reached by moving in any straight line (vertically, horizontally, diagonally) from the square played, and identifying which enemy pieces have been captured. And then capturing them.  <br />
+Processing the opponents move results in a <code>Response</code> from the engine which contains the new state of the board, reflecting the appropriate pieces correctly captured. This happens <code>async</code>-ronously through the use of a <code>Task</code>  <br />
+Choosing a move for the engine to make is where the fun will be, but for now it identifies all the possible valid moves and then selects one at random. This also takes place from within an <code>async</code> method.</p>
+
+<h3 id="gui"><em>GUI:</em></h3>
+<p><code>#TDD #WPF #MVVM #Prism #Unity #TPL #async</code></p>
+
+<p>The GUI is built with WPF using MVVM. It uses Prism for its <code>EventAggregator</code> and <code>DelegateCommand</code> and Unity for Dependency Injection.  <br />
+The game view is constructed using several view files. There is a separate view for the <code>Game</code>, the <code>Board</code> and a <code>Cell</code>.  <br />
+The Board view uses a <code>UniformGrid</code> as a neat way to create a standard game-board look, and has the following XAML structure:</p>
+
+<pre><code>&lt;ItemsControl ItemsSource="{Binding Cells}"&gt;
+
+	&lt;ItemsControl.ItemsPanel&gt;
+		&lt;ItemsPanelTemplate&gt;
+			&lt;UniformGrid Rows="8" Columns="8"/&gt;
+		&lt;/ItemsPanelTemplate&gt;
+	&lt;/ItemsControl.ItemsPanel&gt;
+
+	&lt;ItemsControl.ItemTemplate&gt;
+		&lt;DataTemplate&gt;
+			&lt;ContentControl&gt;
+				&lt;local:CellView/&gt;
+			&lt;/ContentControl&gt;
+		&lt;/DataTemplate&gt;
+	&lt;/ItemsControl.ItemTemplate&gt;
+
+&lt;/ItemsControl&gt;
+</code></pre>
+
+<p>The Cell view uses an <code>IValueConverter</code> to convert the game piece in the cell into the correct <code>Brush</code> when drawing the piece as an <code>Ellipse</code>.  <br />
+It uses a <code>MouseBinding</code> to listen for the user clicking on a cell. Upon such a click, assuming it was on a legal square, a <code>CellSelectedEvent</code> is published using the <code>EventAggregator</code>. All <code>CellViewModels</code> and the <code>GameViewModel</code> subscribe to this event, the former to de-select any previously selected cells and the latter to convey the move to the engine.<br />
+It does this and <code>awaits</code> the response which allows the engine to work asynchronously and take an arbitrarily long time, and allows the GUI to appear responsive in the meantime.  <br />
+Once this first <code>Response</code> is back from the engine, containing the result of the user’s move, if the game has not been ended by that move, a subsequent call is made to the engine asking for its move in reply. This is similarly <code>awaited</code> for the same reasons.</p>
+
+<p>For <code>INotifyPropertyChanged</code>, I am using the <a href="https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute%28v=vs.110%29.aspx"><code>CallerMemberName</code></a> attribute from within my <code>ViewModelBase</code> base class, which does a great job of making sure there isn’t any mistake when supplying the name of the property to notify. Of course, when calling <code>Notify</code> from within one property, we do still have the option to <code>Notify</code> other properties, in which case we would still need to supply the name explicitly (using <code>nameof()</code>), but for the most frequent case I think using this attribute is the best approach.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+</footer>
+
+
+  </body>
+
+</html>
