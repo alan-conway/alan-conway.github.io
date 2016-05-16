@@ -5,35 +5,162 @@
     <description></description>
     <link>http://alan-conway.github.io/</link>
     <atom:link href="http://alan-conway.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 15 May 2016 23:28:19 +0100</pubDate>
-    <lastBuildDate>Sun, 15 May 2016 23:28:19 +0100</lastBuildDate>
+    <pubDate>Mon, 16 May 2016 09:23:10 +0100</pubDate>
+    <lastBuildDate>Mon, 16 May 2016 09:23:10 +0100</lastBuildDate>
     <generator>Jekyll v2.5.0</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>Building Reversi with TDD</title>
+        <description>&lt;h2 id=&quot;building-reversihttpsgithubcomalan-conwayreversi-with-tdd&quot;&gt;Building &lt;a href=&quot;https://github.com/alan-conway/Reversi&quot;&gt;Reversi&lt;/a&gt; with TDD&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;#TDD #xUnit #Moq #WPF #MVVM #Prism #Unity #TPL #async&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://ci.appveyor.com/project/alan-conway/reversi/branch/master&quot;&gt;&lt;img src=&quot;https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true&quot; alt=&quot;Build status&quot; /&gt;&lt;/a&gt;      &lt;a href=&quot;https://github.com/alan-conway/Reversi&quot;&gt;Source Code&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;The goal of this project is to create, using TDD, a working game of Reversi. This is now done and if you’d like to play the game, you can do so by fetching the latest build from &lt;a href=&quot;https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&amp;amp;job=Configuration%3A+Release&quot;&gt;here&lt;/a&gt; and running &lt;code&gt;Reversi.exe&lt;/code&gt; from any machine with an up-to-date .net runtime on it.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;There are 3 main parts to this solution at the moment:  &lt;br /&gt;
+1. The tests  &lt;br /&gt;
+2. The reversi game engine  &lt;br /&gt;
+3. The GUI&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It’s unusual to list the tests first but it feels appropriate here because this project is following TDD, so a quick look there before the other components of the project…&lt;/p&gt;
 
+&lt;h3 id=&quot;tests&quot;&gt;&lt;em&gt;Tests:&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;#TDD #xUnit #Moq #TPL #async #ExtensionMethods&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The tests in this project are written using xUnit and Moq, both of which I recommend.  &lt;br /&gt;
+I’ve made frequent use of xUnit’s support of &lt;em&gt;parameterised&lt;/em&gt; tests through its &lt;code&gt;[Theory] [InlineData(..)]&lt;/code&gt; attributes.  &lt;br /&gt;
+For the &lt;code&gt;GameEngine&lt;/code&gt;, there were times when I wanted to pass various different types of mocked objects into its constructor, and to avoid repeating myself too much throughout the tests, I opted to use a &lt;em&gt;fluent builder&lt;/em&gt;.  &lt;br /&gt;
+By ‘builder’, I am referring to the classical &lt;a href=&quot;https://en.wikipedia.org/wiki/Builder_pattern&quot;&gt;Builder&lt;/a&gt; design pattern from &lt;a href=&quot;https://www.amazon.co.uk/dp/0201633612&quot;&gt;GoF&lt;/a&gt;. And by ‘fluent’, I am referring to a &lt;a href=&quot;https://en.wikipedia.org/wiki/Fluent_interface&quot;&gt;fluent syntax&lt;/a&gt;.  &lt;br /&gt;
+An example of the builder and the syntax are as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private IFoo _foo;
+private IBar _bar;
+
+public MyObjBuilder()
+{
+	_foo = new Mock&amp;lt;IFoo&amp;gt;().Object;
+	_bar = new Mock&amp;lt;IBar&amp;gt;().Object;
+}
+
+public MyObjBuilder SetFoo(IFoo foo)
+{
+	_foo = foo;
+	return this;
+}
+
+public MyObjBuilder SetBar(IBar bar)
+{
+	_bar = bar;
+	return this;
+}
+
+public Obj Build()
+{
+	return new Obj(_foo, _bar);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;em&gt;fluency&lt;/em&gt; comes from the fact that the SetFoo and SetBar methods return &lt;code&gt;this&lt;/code&gt; which allows for the following (fluent-style) syntax when they are being called:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Obj obj = myObjBuilder
+			.SetFoo(customFoo)
+			.SetBar(customBar)
+			.Build();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;xUnit also allows us to use the &lt;code&gt;async&lt;/code&gt; keyword in test method signatures, which is great when we need to &lt;code&gt;await&lt;/code&gt; the result of a &lt;code&gt;Task&lt;/code&gt;. Here is an example of such a test to demonstrate:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Fact]
+public async void ShouldUpdateMoveNumber()
+{
+	//Arrange: Create a new game and define the location of the first move
+	_engine.CreateNewGame();
+	Move move = new Move(34);
+
+	//Act: Process move and increment the move number
+	var response = await _engine.UpdateBoardAsync(move);
+
+	//Assert: Engine should have updated MoveNumber to 2 after processing the move
+	Assert.Equal(2, _engine.MoveNumber);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I also wrote an extension method for implementors of INotifyPropertyChanged&lt;/p&gt;
+
+&lt;h3 id=&quot;engine&quot;&gt;&lt;em&gt;Engine:&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;#TDD #TPL #async #DependencyInjection&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The engine is where most of the logic is found. The GUI is there to convey the user’s move to the engine and display the results, but it’s the engine which processes all the information.  &lt;br /&gt;
+The engine only has a few basic tasks:  &lt;br /&gt;
+* Create a new game  &lt;br /&gt;
+* Process the opponent’s move  &lt;br /&gt;
+* Choose and play its own move in response&lt;/p&gt;
+
+&lt;p&gt;There are a few minor complications which mean that it’s slightly less linear than it sounds. (eg when a player has no valid moves and must &lt;em&gt;pass&lt;/em&gt; their turn.) But on the whole it is as straightforward as that.  &lt;br /&gt;
+Of course the interesting piece will be in having the engine choose the best move but I will come to that another day.  &lt;br /&gt;
+Creating a new game is a simple matter. I chose to keep the state of the game board within an object called &lt;code&gt;IGameContext&lt;/code&gt;, which can be passed around to those that need it. The squares on the board are kept as a simple array, which is as neat and convenient a representation as any. A &lt;code&gt;Square&lt;/code&gt; maintains the colour of the piece that it contains (if any) and a couple of other flags, such as whether it is valid for the opponent to play in that square next time around. Creating a new game is a matter of resetting the state of the game context.  &lt;br /&gt;
+Processing the opponents move requires us to examine the squares that can be reached by moving in any straight line (vertically, horizontally, diagonally) from the square played, and identifying which enemy pieces have been captured. And then capturing them.  &lt;br /&gt;
+Processing the opponents move results in a &lt;code&gt;Response&lt;/code&gt; from the engine which contains the new state of the board, reflecting the appropriate pieces correctly captured. This happens &lt;code&gt;async&lt;/code&gt;-ronously through the use of a &lt;code&gt;Task&lt;/code&gt;  &lt;br /&gt;
+Choosing a move for the engine to make is where the fun will be, but for now it identifies all the possible valid moves and then selects one at random. This also takes place from within an &lt;code&gt;async&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;h3 id=&quot;gui&quot;&gt;&lt;em&gt;GUI:&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;#TDD #WPF #MVVM #Prism #Unity #TPL #async&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The GUI is built with WPF using MVVM. It uses Prism for its &lt;code&gt;EventAggregator&lt;/code&gt; and &lt;code&gt;DelegateCommand&lt;/code&gt; and Unity for Dependency Injection.  &lt;br /&gt;
+The game view is constructed using several view files. There is a separate view for the &lt;code&gt;Game&lt;/code&gt;, the &lt;code&gt;Board&lt;/code&gt; and a &lt;code&gt;Cell&lt;/code&gt;.  &lt;br /&gt;
+The Board view uses a &lt;code&gt;UniformGrid&lt;/code&gt; as a neat way to create a standard game-board look, and has the following XAML structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ItemsControl ItemsSource=&quot;{Binding Cells}&quot;&amp;gt;
+
+	&amp;lt;ItemsControl.ItemsPanel&amp;gt;
+		&amp;lt;ItemsPanelTemplate&amp;gt;
+			&amp;lt;UniformGrid Rows=&quot;8&quot; Columns=&quot;8&quot;/&amp;gt;
+		&amp;lt;/ItemsPanelTemplate&amp;gt;
+	&amp;lt;/ItemsControl.ItemsPanel&amp;gt;
+
+	&amp;lt;ItemsControl.ItemTemplate&amp;gt;
+		&amp;lt;DataTemplate&amp;gt;
+			&amp;lt;ContentControl&amp;gt;
+				&amp;lt;local:CellView/&amp;gt;
+			&amp;lt;/ContentControl&amp;gt;
+		&amp;lt;/DataTemplate&amp;gt;
+	&amp;lt;/ItemsControl.ItemTemplate&amp;gt;
+
+&amp;lt;/ItemsControl&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Cell view uses an &lt;code&gt;IValueConverter&lt;/code&gt; to convert the game piece in the cell into the correct &lt;code&gt;Brush&lt;/code&gt; when drawing the piece as an &lt;code&gt;Ellipse&lt;/code&gt;.  &lt;br /&gt;
+It uses a &lt;code&gt;MouseBinding&lt;/code&gt; to listen for the user clicking on a cell. Upon such a click, assuming it was on a legal square, a &lt;code&gt;CellSelectedEvent&lt;/code&gt; is published using the &lt;code&gt;EventAggregator&lt;/code&gt;. All &lt;code&gt;CellViewModels&lt;/code&gt; and the &lt;code&gt;GameViewModel&lt;/code&gt; subscribe to this event, the former to de-select any previously selected cells and the latter to convey the move to the engine.&lt;br /&gt;
+It does this and &lt;code&gt;awaits&lt;/code&gt; the response which allows the engine to work asynchronously and take an arbitrarily long time, and allows the GUI to appear responsive in the meantime.  &lt;br /&gt;
+Once this first &lt;code&gt;Response&lt;/code&gt; is back from the engine, containing the result of the user’s move, if the game has not been ended by that move, a subsequent call is made to the engine asking for its move in reply. This is similarly &lt;code&gt;awaited&lt;/code&gt; for the same reasons.&lt;/p&gt;
+
+&lt;p&gt;For &lt;code&gt;INotifyPropertyChanged&lt;/code&gt;, I am using the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.callermembernameattribute%28v=vs.110%29.aspx&quot;&gt;&lt;code&gt;CallerMemberName&lt;/code&gt;&lt;/a&gt; attribute from within my &lt;code&gt;ViewModelBase&lt;/code&gt; base class, which does a great job of making sure there isn’t any mistake when supplying the name of the property to notify. Of course, when calling &lt;code&gt;Notify&lt;/code&gt; from within one property, we do still have the option to &lt;code&gt;Notify&lt;/code&gt; other properties, in which case we would still need to supply the name explicitly (using &lt;code&gt;nameof()&lt;/code&gt;), but for the most frequent case I think using this attribute is the best approach.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 15 May 2016 22:40:22 +0100</pubDate>
-        <link>http://alan-conway.github.io/jekyll/update/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://alan-conway.github.io/jekyll/update/welcome-to-jekyll.html</guid>
+        <pubDate>Sun, 15 May 2016 23:31:41 +0100</pubDate>
+        <link>http://alan-conway.github.io/posts/building-reversi-with-tdd.html</link>
+        <guid isPermaLink="true">http://alan-conway.github.io/posts/building-reversi-with-tdd.html</guid>
+        
+        <category>#TDD</category>
+        
+        <category>#xUnit</category>
+        
+        <category>#Moq</category>
+        
+        <category>#WPF</category>
+        
+        <category>#MVVM</category>
+        
+        <category>#Prism</category>
+        
+        <category>#Unity</category>
+        
+        <category>#TPL</category>
+        
+        <category>#async</category>
         
         
-        <category>jekyll</category>
-        
-        <category>update</category>
+        <category>posts</category>
         
       </item>
     
