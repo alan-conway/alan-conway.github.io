@@ -5,16 +5,50 @@
     <description></description>
     <link>http://alan-conway.github.io/</link>
     <atom:link href="http://alan-conway.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 16 May 2016 09:45:01 +0100</pubDate>
-    <lastBuildDate>Mon, 16 May 2016 09:45:01 +0100</lastBuildDate>
+    <pubDate>Mon, 16 May 2016 11:59:52 +0100</pubDate>
+    <lastBuildDate>Mon, 16 May 2016 11:59:52 +0100</lastBuildDate>
     <generator>Jekyll v2.5.0</generator>
     
       <item>
-        <title>Creating a Reversi game with TDD</title>
-        <description>&lt;h2 id=&quot;creating-a-reversihttpsgithubcomalan-conwayreversi-game-with-tdd&quot;&gt;Creating a &lt;a href=&quot;https://github.com/alan-conway/Reversi&quot;&gt;Reversi&lt;/a&gt; game with TDD&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;#TDD #xUnit #Moq #WPF #MVVM #Prism #Unity #TPL #async&lt;/code&gt;&lt;/p&gt;
+        <title>Testable Message Dialogs in WPF</title>
+        <description>&lt;p&gt;&lt;code&gt;#TDD #xUnit #Moq #WPF&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://ci.appveyor.com/project/alan-conway/reversi/branch/master&quot;&gt;&lt;img src=&quot;https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true&quot; alt=&quot;Build status&quot; /&gt;&lt;/a&gt;      &lt;a href=&quot;https://github.com/alan-conway/Reversi&quot;&gt;Source Code&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I wanted to add a popup message in my &lt;a href=&quot;https://github.com/alan-conway/Reversi&quot;&gt;Reversi&lt;/a&gt; game to allow the player to confirm they want to start a new game and hadn’t clicked the button by mistake.&lt;/p&gt;
+
+&lt;p&gt;Simply adding a call to &lt;code&gt;MessageBox.Show&lt;/code&gt; from within the ViewModel would not be a good idea because not only would it be difficult to test, it would also potentially stop other tests from completing.&lt;/p&gt;
+
+&lt;p&gt;The solution I used was to create a simple &lt;code&gt;IMessageDialogService&lt;/code&gt; interface which looks a bit like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C#&quot;&gt;public interface IMessageDialogService
+{
+	YesNoEnum ShowYesNoMessageDialog(string caption, string message);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now instead of having the ViewModel make a call to &lt;code&gt;MessageBox.Show&lt;/code&gt;, it can call instead to the instance of &lt;code&gt;IMessageDialogService&lt;/code&gt; which was injected as a dependency.  For testing, we can mock the service and return whichever value we choose, and when we run the application for real, it’s a simple matter to create a concrete instance of the interface that shows a popup dialog.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 16 May 2016 12:45:23 +0100</pubDate>
+        <link>http://alan-conway.github.io/posts/adding-message-dialog-with-mvvm.html</link>
+        <guid isPermaLink="true">http://alan-conway.github.io/posts/adding-message-dialog-with-mvvm.html</guid>
+        
+        <category>#TDD</category>
+        
+        <category>#xUnit</category>
+        
+        <category>#Moq</category>
+        
+        <category>#WPF</category>
+        
+        
+        <category>posts</category>
+        
+      </item>
+    
+      <item>
+        <title>Creating a Reversi game with TDD</title>
+        <description>&lt;p&gt;&lt;code&gt;#TDD #xUnit #Moq #WPF #MVVM #Prism #Unity #TPL #async&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://ci.appveyor.com/project/alan-conway/reversi/branch/master&quot;&gt;&lt;img src=&quot;https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true&quot; alt=&quot;Build status&quot; /&gt;&lt;/a&gt;  -     &lt;a href=&quot;https://github.com/alan-conway/Reversi&quot;&gt;Source Code&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;The goal of this project was to create, using TDD, a working game of Reversi. If you’d like to play the game, you can do so by fetching the latest build from &lt;a href=&quot;https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&amp;amp;job=Configuration%3A+Release&quot;&gt;here&lt;/a&gt; and running &lt;code&gt;Reversi.exe&lt;/code&gt; from any machine with an up-to-date .net runtime on it.&lt;/p&gt;
 

@@ -5,10 +5,9 @@ date:   2016-05-15 22:31:41
 categories: posts
 tags: ['#TDD', '#xUnit', '#Moq', '#WPF','#MVVM','#Prism','#Unity','#TPL','#async']
 ---
-## Creating a [Reversi](https://github.com/alan-conway/Reversi) game with TDD  
 `#TDD #xUnit #Moq #WPF #MVVM #Prism #Unity #TPL #async`
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true)](https://ci.appveyor.com/project/alan-conway/reversi/branch/master)      [Source Code](https://github.com/alan-conway/Reversi)
+[![Build status](https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true)](https://ci.appveyor.com/project/alan-conway/reversi/branch/master)  -     [Source Code](https://github.com/alan-conway/Reversi)
 
 The goal of this project was to create, using TDD, a working game of Reversi. If you'd like to play the game, you can do so by fetching the latest build from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from any machine with an up-to-date .net runtime on it.
 
