@@ -9,9 +9,11 @@ tags: ['#TDD', '#xUnit', '#Moq', '#WPF','#MVVM','#Prism','#Unity','#TPL','#async
 
 [![Build status](https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true)](https://ci.appveyor.com/project/alan-conway/reversi/branch/master)  -     [Source Code](https://github.com/alan-conway/Reversi)
 
-The goal of this project was to create, using TDD, a working game of Reversi. If you'd like to play the game, you can do so by fetching the latest build from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from any machine with an up-to-date .net runtime on it.
+This project is a game of Reversi. If you'd like to play the game, you can do so by fetching the latest build from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from a windows machine with an up-to-date .net runtime on it.
 
-There are 3 main parts to this solution at the moment:  
+My goal is to build an application that I can use as a basis for learning about AI. That will come later on, so for now the computer responses are basic.
+
+There are 3 main parts to this solution at this stage:  
 1. The tests  
 2. The reversi game engine  
 3. The GUI  
@@ -72,7 +74,7 @@ public async void ShouldUpdateMoveNumber()
 {
 	//Arrange: Create a new game and define the location of the move
 	_engine.CreateNewGame();
-	Move move = new Move(34);
+	Move move = new Move(19);
 
 	//Act: Process move and increment the move number from 1 to 2
 	var response = await _engine.UpdateBoardAsync(move);
