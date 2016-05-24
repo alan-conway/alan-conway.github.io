@@ -9,14 +9,15 @@ tags: ['#TDD', '#xUnit', '#Moq', '#WPF','#MVVM','#Prism','#Unity','#TPL','#async
 
 [![Build status](https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true)](https://ci.appveyor.com/project/alan-conway/reversi/branch/master)  -     [Source Code](https://github.com/alan-conway/Reversi)
 
-This project is a game of Reversi. If you'd like to play the game, you can do so by fetching the latest build from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from a windows machine with an up-to-date .net runtime on it.
+This project is a game of Reversi. If you'd like to play the game, you can do so by fetching the zipped binaries from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from a windows machine with an up-to-date .net runtime on it.
 
 My goal is to build an application that I can use as a basis for learning about AI. That will come later on, so for now the computer responses are basic.
 
-There are 3 main parts to this solution at this stage:  
-1. The tests  
-2. The reversi game engine  
-3. The GUI  
+There are main components in this project are:
+
+1. [The tests](#the-tests)
+1. [The reversi game engine](#the-game-engine)
+1. [The user interface](#the-gui)
 
 Maybe it's unusual to list the tests first but it feels appropriate here because this project is following TDD, so a quick look there before the other components of the project...
 
