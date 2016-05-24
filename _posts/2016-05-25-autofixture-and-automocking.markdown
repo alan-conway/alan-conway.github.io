@@ -12,7 +12,7 @@ tags: ['#TDD', '#xUnit', '#Moq', '#AutoFixture']
 [Download and play](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)
 
 In my [first post](posts/reversi-with-tdd.html) discussing my reversi project, I pointed out that I'm using TDD with xUnit and Moq, and highlighted a fluent builder pattern that I was using to build some of the objects that I would be testing.  
-Since writing that post, I have been reading and learning more about AutoFixture and its automocking capabilities, and have now ported my test code to use this instead.
+Since writing that post, I have been reading and learning more about [AutoFixture](https://github.com/AutoFixture/AutoFixture) and its automocking capabilities, and have now ported my test code to use this instead.
 
 ### _AutoFixture:_  
 At its heart, AutoFixture tries to help simplify the 'Arrange' stage of unit testing.  
