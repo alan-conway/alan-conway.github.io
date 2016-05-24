@@ -9,7 +9,9 @@ tags: ['#TDD', '#xUnit', '#Moq', '#AutoFixture']
 
 [Source Code](https://github.com/alan-conway/Reversi)
 
-In my [first post](posts/reversi-with-tdd.html) discussing this project, I pointed out that I'm using TDD with xUnit and Moq, and highlighted a fluent builder pattern that I was using to build some of the objects that I would be testing.  
+[Download and play](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)
+
+In my [first post](posts/reversi-with-tdd.html) discussing my reversi project, I pointed out that I'm using TDD with xUnit and Moq, and highlighted a fluent builder pattern that I was using to build some of the objects that I would be testing.  
 Since writing that post, I have been reading and learning more about AutoFixture and its automocking capabilities, and have now ported my test code to use this instead.
 
 ### _AutoFixture:_  
@@ -159,3 +161,8 @@ public void ShouldDoWork()
 ~~~
 
 The `Freeze` method here tells AutoFixture that once it has created its mock of `IFoo` then it should return that same instance each time it resolves that interface, rather than returning a different instance each time.
+
+
+### _Further Reading:_
+
+Find out more about AutoFixture by checking out the [Cheat Sheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet) or [this list of blog posts](http://blog.ploeh.dk/tags/#AutoFixture-ref) from Mark Seemann, the author of AutoFixture
