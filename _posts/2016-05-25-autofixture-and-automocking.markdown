@@ -7,57 +7,55 @@ tags: ['#TDD', '#xUnit', '#Moq', '#AutoFixture']
 ---
 `#TDD #xUnit #Moq #AutoFixture`
 
-[Source Code](https://github.com/alan-conway/Reversi)
+This posts continues the discussion of my reversi project. Source code can [be found here](https://github.com/alan-conway/Reversi) and if you'd like to download and play the game then you can do so by [clicking here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)
 
-[Download and play](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)
-
-In my [first post](posts/reversi-with-tdd.html) discussing my reversi project, I pointed out that I'm using TDD with xUnit and Moq, and highlighted a fluent builder pattern that I was using to build some of the objects that I would be testing.  
-Since writing that post, I have been reading and learning more about [AutoFixture](https://github.com/AutoFixture/AutoFixture) and its automocking capabilities, and have now ported my test code to use this instead.
+In my [first post](posts/reversi-with-tdd.html), I mentioned that I'm using TDD with xUnit and Moq, and highlighted a fluent builder pattern that I was using to build some of the objects that I would be testing.  
+Since writing that post, I have been reading and learning more about [AutoFixture](https://github.com/AutoFixture/AutoFixture) and its auto-mocking capabilities, and have now updated most of my tests to use this.
 
 ### _AutoFixture:_  
-At its heart, AutoFixture tries to help simplify the 'Arrange' stage of unit testing.  
+AutoFixture's goal is to simplify the 'Arrange' stage of unit testing.  
 One way in which it does so is by providing a convenient way to create anonymous data to feed into tests.  
 To understand what that means, let's look at a trivial example.  
-Suppose our system under test is an Address Book and we have a test such as the following for adding a new address into the address book:
+Suppose our system under test is an contact list and we have a test such as the following for adding a new name into the our list:
 
 ~~~ C#
 [Fact]
-public void ShouldAddNewAddressIntoAddressBook()
+public void ShouldAddNewNameIntoContactList()
 {
 	//Arrange
-	string newAddress = "29 Acacia Road";
-	var addressBook = new AddressBook();
+	string newName = "Ernest Penfold";
+	var contacts = new ContactList();
 
 	//Act
-	addressBook.Add(newAddress);
+	contacts.Add(newName);
 
 	//Assert
-	Assert.Equal(1, addressBook.Addresses.Count);
+	Assert.Equal(1, contacts.People.Count());
 }
 ~~~
 
-In this case, the value of the new address that we are adding is not important to us - it could be anything and the test would remain the same.  
+In this case, the value of the new name we are adding is of no particular importance to us - it could be anything and the test would remain the same.  
 So in situations such as these we can use AutoFixture to create some dummy data for us, rather than having to put it together ourselves.
 
 ~~~ C#
 [Fact]
-public void ShouldAddNewAddressIntoAddressBook()
+public void ShouldAddNewNameIntoContactList()
 {
 	//Arrange
 	var fixture = new Fixture();
-	string newAddress = fixture.Create<string>();
-	var addressBook = new AddressBook();
+	string newName = fixture.Create<string>();
+	var contacts = new ContactList();
 
 	//Act
-	addressBook.Add(newAddress);
+	contacts.Add(newName);
 
 	//Assert
-	Assert.Equal(1, addressBook.Addresses.Count());
+	Assert.Equal(1, contacts.People.Count());
 }
 ~~~
 
 In this new example, we get a random string returned to us (eg `05a41b95-34b8-4b4b-920a-b3fc92e62dc0`) which this is used to give our address some value.  
-AutoFixture can also do this with other data types, including our own custom types, and this is where it becomes very useful. Suppose that instead of adding a `string` into our `AddressBook` we instead add a `Person` into our `ContactsList`, where `Person` is a class that we have defined in our application. Then the code for our test will look essentially the same but AutoFixture will be doing much more for us:
+AutoFixture can also do this with other data types, including our own custom types, and this is where it becomes very useful. Suppose that instead of adding a string into our AddressBook we instead add a `Person` into a ContactsList, where Person is a class that we have defined in our application. Then the code for our test will look essentially the same but AutoFixture will be doing much more for us:
 
 ~~~ C#
 [Fact]
@@ -98,14 +96,23 @@ AutoFixture, with its available extra xUnit nuget package, allows this to be ext
 ~~~ C#
 [Theory]
 [InlineAutoData(1)]
-[InlineAutoData(2)]
+[InlineAutoData(-2)]
 public void ShouldAddEmployeeToDirectory(int employeeId, Employee employee)
 {
-		....
+    ...
 }
 ~~~
 
-In this example, the usual `[InlineData]` attribute has become `[InlineAutoData]` and we are still able to supply a value for all the fields if we chooose to. But if we do not then AutoFixture will automatically supply anonymised data for the remaining arguments.
+In this example, the usual `[InlineData]` attribute has become `[InlineAutoData]` and we are still able to supply a value for all the fields if we choose to. But if we do not then AutoFixture will automatically supply anonymised data for the remaining arguments.  
+If we don't need to specify our own value for any of the arguments being supplied then we can use the `[AutoData]` attribute which makes things even easier:  
+
+~~~ C#
+[Theory, AutoData]
+public void ShouldAddEmployeeToDirectory(int employeeId, Employee employee)
+{
+	...
+}
+~~~
 
 ### _AutoFixture with AutoMoq:_
 
@@ -143,9 +150,9 @@ public void ShouldDoWork()
 }
 ~~~
 
-This will automatically create an instance of `Worker`, and will have done so by injecting mocked instances of `Foo` and `Bar` as constructor arguments.
+This will automatically create an instance of `Worker`, and will have done so by injecting mocked instances of `IFoo` and `IBar` as constructor arguments.
 
-If we want to Setup one or both of the interfaces then we can do so as follows:
+If we want to `Setup` one or both of the interfaces then we can do so as follows:
 
 ~~~ C#
 [Fact]
@@ -165,4 +172,4 @@ The `Freeze` method here tells AutoFixture that once it has created its mock of 
 
 ### _Further Reading:_
 
-Find out more about AutoFixture by checking out the [Cheat Sheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet) or [this list of blog posts](http://blog.ploeh.dk/tags/#AutoFixture-ref) from Mark Seemann, the author of AutoFixture
+Find out more about AutoFixture by checking out the [Cheat Sheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet) for examples, or [this list of blog posts](http://blog.ploeh.dk/tags/#AutoFixture-ref) from Mark Seemann, the author of AutoFixture

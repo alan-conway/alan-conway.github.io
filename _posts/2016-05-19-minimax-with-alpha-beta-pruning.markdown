@@ -7,9 +7,9 @@ tags: ['#TDD', '#xUnit', '#Moq']
 ---
 `#TDD #xUnit #Moq`
 
-[Source Code](https://github.com/alan-conway/Reversi)
+This posts continues the discussion of my reversi project. Source code can [be found here](https://github.com/alan-conway/Reversi) and if you'd like to download and play the game then you can do so by [clicking here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)
 
-With this set of changes, I have added some AI into my Reversi game. If you'd like give it a try, you can do so by fetching the latest build from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from any windows machine with an up-to-date .net runtime on it.
+Here I discuss adding some AI into the game, in the form of the Minimax algorithm.
 
 ### _Minimax:_  
 [Minimax](https://en.wikipedia.org/wiki/Minimax#Minimax_algorithm_with_alternate_moves) is an algorithm that is particularly well suited to two-player games, such as Reversi. Its goal is to evaluate the next moves available in a game to identify the best move to make.   
@@ -42,5 +42,5 @@ I have used a basic move ordering in which playing into a corner, if an availabl
 
 ### _Results:_
 With the improvements described here, the result is a game that wins against me much more often than I win against it, so I consider this to be a success.  
-The goal was not to produce an unbeatable game but simply to learn about the process of writing the AI logic, so it's great that the result is so good.  
-Why not [give it a try](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)?
+The goal was not to produce an unbeatable game but simply to learn about the process of writing the AI logic, so I'm impressed that it's so strong.  
+Why not [give it a try](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) yourself?

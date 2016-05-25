@@ -7,11 +7,11 @@ tags: ['#TDD', '#xUnit', '#Moq', '#WPF','#MVVM','#Prism','#Unity','#TPL','#async
 ---
 `#TDD #xUnit #Moq #WPF #MVVM #Prism #Unity #TPL #async`
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true)](https://ci.appveyor.com/project/alan-conway/reversi/branch/master)  -     [Source Code](https://github.com/alan-conway/Reversi)
+[![Build status](https://ci.appveyor.com/api/projects/status/7236icqvy63ponk9/branch/master?svg=true)](https://ci.appveyor.com/project/alan-conway/reversi/branch/master)  
 
-This project is a game of Reversi. If you'd like to play the game, you can do so by fetching the zipped binaries from [here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` from a windows machine with an up-to-date .net runtime on it.
+This and following posts will discuss my project to build a game of Reversi (also known as Othello). Source code can [be found here](https://github.com/alan-conway/Reversi) and if you'd like to download and play the game then you can do so by [clicking here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) and running `Reversi.exe` on a windows machine with an up-to-date .net runtime installed.
 
-My goal is to build an application that I can use as a basis for learning about AI. That will come later on, so for now the computer responses are basic.
+My goal is to build an application that I can use as a basis for learning about AI. The AI will come later on, so for now the computer responses are basic.
 
 There are main components in this project are:
 

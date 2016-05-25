@@ -7,7 +7,9 @@ tags: ['#TDD', '#xUnit', '#Moq', '#WPF']
 ---
 `#TDD #xUnit #Moq #WPF`
 
-I wanted to add a popup message in my [Reversi](https://github.com/alan-conway/Reversi) game to allow the player to confirm they want to start a new game and hadn't clicked the button by mistake.
+This posts continues the discussion of my reversi project. Source code can [be found here](https://github.com/alan-conway/Reversi) and if you'd like to download and play the game then you can do so by [clicking here](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release)
+
+I wanted to add a popup message in my game to allow the player to confirm they want to start a new game and hadn't clicked the button by mistake.
 
 Simply adding a call to `MessageBox.Show` from within the ViewModel would not be a good idea because not only would it be difficult to test, it would also potentially stop other tests from completing.
 
