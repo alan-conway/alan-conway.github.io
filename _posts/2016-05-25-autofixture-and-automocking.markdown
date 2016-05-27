@@ -54,8 +54,8 @@ public void ShouldAddNewNameIntoContactList()
 }
 ~~~
 
-In this new example, we get a random string returned to us (eg `05a41b95-34b8-4b4b-920a-b3fc92e62dc0`) which this is used to give our address some value.  
-AutoFixture can also do this with other data types, including our own custom types, and this is where it becomes very useful. Suppose that instead of adding a string into our AddressBook we instead add a `Person` into a ContactsList, where Person is a class that we have defined in our application. Then the code for our test will look essentially the same but AutoFixture will be doing much more for us:
+In this new example, we get a random string returned to us (eg `05a41b95-34b8-4b4b-920a-b3fc92e62dc0`) which this is used to give our name some value.  
+AutoFixture can also do this with other data types, including our own custom types, and this is where it becomes very useful. Suppose that instead of adding just a name into our ContactList, we define a `Person` class and add an instance of person instead. Then the code for our test will look essentially the same but AutoFixture will be doing much more for us:
 
 ~~~ C#
 [Fact]
@@ -116,7 +116,7 @@ public void ShouldAddEmployeeToDirectory(int employeeId, Employee employee)
 
 ### _AutoFixture with AutoMoq:_
 
-With an additional extra nuget package, AutoFixture can also become an automocking container which will perform dependency injection and will automatically create mocks of interfaces by default.  For example, suppose we have code such as this  
+With an additional extra nuget package, AutoFixture can also become an auto-mocking container which will perform dependency injection and will automatically create mocks of interfaces by default.  For example, suppose we have code such as this  
 
 ~~~ C#
 public interface IFoo
