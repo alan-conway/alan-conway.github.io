@@ -40,7 +40,7 @@ Once a game has been completed, we propagate the results back up the tree to the
 #### _Repeat:_  
 All of the above is repeated many times. The more repetitions, the better the overall results. The number of repetitions is usually determined by setting a fixed number, or by setting a fixed amount of time and performing repetitions until the time is up.  
 
-![Monte Carlo Tree Search Image](https://upload.wikimedia.org/wikipedia/commons/b/b3/MCTS_%28English%29.svg)
+![Monte Carlo Tree Search Image](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/MCTS_%28English%29.svg/800px-MCTS_%28English%29.svg.png)
 
 ### _Selection in more depth:_
 Once there have been many iterations of the above steps, the tree will have grown (through the expansion step) to have a non-trivial number of nodes. How then do we select which node to expand and perform our simulations on?  
@@ -61,7 +61,7 @@ One disadvantage is that it is generally slower than minimax although it can be 
 But the interesting advantage of MCTS is that the algorithm can achieve this minimax-like strength without knowing anything about the strategy of the game. Unlike minimax which needs to use evaluation functions and heuristics to guide its decisions, MCTS can operate without them and can find its own interesting moves to make by letting them emerge from its random playouts.
 
 ### _My implementation:_
-My application used a 1-9 strength rating for the AI algorithms it uses. For monte carlo, each setting represents a 0.5 second increase in thinking time from the previous setting, so setting the algorithm to level 5 means that it will search the tree for 2.5 seconds before making its move.  
+My application uses a 1-9 strength rating for the AI algorithms it uses. For monte carlo, each setting represents a 0.5 second increase in thinking time from the previous setting, so setting the algorithm to level 5 means that it will search the tree for 2.5 seconds before making its move.  
 Why not [give it a try](https://ci.appveyor.com/api/projects/alan-conway/reversi/artifacts/Reversi.zip?branch=master&job=Configuration%3A+Release) yourself?
 
 ### _Further Reading:_
